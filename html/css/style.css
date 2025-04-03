@@ -1,0 +1,15 @@
+@CHARSET "UTF-8";
+.clear {
+    clear: both;
+}
+
+#len {
+    width: 15%;
+}
+
+section {
+ margin: 15px;
+}
+section span {
+ width: 15%;
+}

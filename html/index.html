@@ -3,12 +3,11 @@
 <head>
     <meta charset="utf-8">
     <title>Pseudosõnade generaator</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="js/script.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/js/script.js"></script>
 </head>
 <body>
-<div class="form">
+<form>
 <section>
 Lemmade listi põhjal
 <input type="radio" name="how" id="dgf" value="dgf"><label for="dgf">Digrammide alusel</label>
@@ -21,9 +20,9 @@ Liitsõnapiiri alusel tükeldatud lemmade listi põhjal
 </section>
 <input id="len" name="len" type="text"
             placeholder="Pseudosõnade pikkus" pattern="^[0-9\.]+$">
-<input type="button" name="Genereeri" value="Genereeri" id="submit" />
-</div>
-<div class="content">
+<input type="submit" name="Genereeri" value="Genereeri"  />
+</form>
+<div id="content">
 Palun vajuta nuppu...
 </div>
 </body>

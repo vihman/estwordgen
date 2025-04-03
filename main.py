@@ -26,7 +26,7 @@ class Main:
     qd2g_h   = None
     qd3g_h   = None
     length_h = None
-    
+
     def run(self):
         def avg(listObj):
             return float(sum(listObj)) / len(listObj)
@@ -211,11 +211,34 @@ class Main:
         return random.choice(list(open(afile))).rstrip('\n')
 
 
-if __name__ == '__main__':
+    # TODO: implement new where only needed pickle is loaded and solutions given.
+def getWords(self, how, length):
+    # sanitize
+    if how not in ["dgf", "tgf", "dgh", "tgh"]:
+        return {}
+    if int(len) > 49 or int(len) < 2:
+        return {}
 
-    app = Main()
-    if len(sys.argv) > 1 and sys.argv[1] == 'save':
-        app.save()
-    else:
-        app.load()
-        app.run()
+    for i in range(count):
+        length = self.gc.findLength(lengthObj)
+        word = self.gc.findWord(Qdict, depth, length)
+        words.append(word)
+    return words
+
+    if 'how' in form:
+        if how == 'dgf':
+            filename = 'resource/qd2g_f.pck'
+            depth = 2
+            result = findWords(20, self.qd2g_f, 2, len)
+        elif form['how'].value == 'tgf':
+            result = findWords(20, self.qd3g_f, 3, len)
+        elif form['how'].value == 'dgh':
+            result = findWords(20, self.qd2g_h, 2, len)
+        elif form['how'].value == 'tgh':
+            result = findWords(20, self.qd3g_h, 3, len)
+
+    collection = {}
+    with open(filename, 'rb') as f:
+        collection = pickle.load(f)
+    result = findWords(20, collection, depth, length)
+    return json.dumps(result)
