@@ -10,7 +10,7 @@ from extract.search import get_word
 
 origins = [
     "http://localhost",
-    "https://*.vihman.com",
+    "https://*",
 ]
 
 # Only these headers are allowed
