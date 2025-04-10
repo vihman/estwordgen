@@ -3,11 +3,28 @@ from typing import Literal
 
 from fastapi import FastAPI
 from pydantic import BaseModel, conint
+from fastapi.middleware.cors import CORSMiddleware
 
 from extract.graphcollection import GraphCollection
 from extract.search import get_word
 
+origins = [
+    "http://localhost",
+    "https://*.vihman.com",
+]
+
+# Only these headers are allowed
+headers = ["Content-Type", "Authorization"]
+
+
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["PUT"],
+    allow_headers=headers,
+)
 
 
 class Model(BaseModel):
@@ -20,7 +37,7 @@ class Model(BaseModel):
     ]
 
 
-@app.put("/wordgen/")
+@app.put("/api/")
 async def read_item(params: Model):
     result = await get_words(params)
     return result
