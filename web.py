@@ -1,45 +1,38 @@
-# SlingAcademy.com
-# main.py
-import json
-from pathlib import Path
+import pickle
+from typing import Literal
 
-from aiohttp import web
+from fastapi import FastAPI
+from pydantic import BaseModel, conint
 
-# Create an instance of the web application
-app = web.Application()
+from extract.graphcollection import GraphCollection
+from extract.search import get_word
 
-
-# Define a handler for the root path
-async def root_handler(request):
-    return web.FileResponse("html/index.html")
-    #return web.Response(
-    #    text=f"<h1>Welcome to Sling Academy!</h1><p>{request}</p>", content_type="text/html"
-    #)
+app = FastAPI()
 
 
-# Define a handler for the /api path
-async def api_handler(request):
-    return web.json_response(
-        {"status": 200, "message": str(request)}
-    )
+class Model(BaseModel):
+    len: conint(ge=2, le=50)
+    how: Literal[
+        "qd2g_f", # "dgf" digrammid (2)
+        "qd3g_f", # "tgf", # trigrammid (3)
+        "qd2g_h", # "dgh", # tükeldatud liitsõnad digrammid (2)
+        "qd3g_h", # "tgh"  # tükeldatud liitsõnad trigrammid (3)
+    ]
 
-async def handle_file(request):
-    p = Path(f"./html/{request.path}")
-    if p.is_file():
-        return web.FileResponse(p)
-    return web.Response(status=403)
 
-# Add the /api route and its handler to the app
+@app.put("/wordgen/")
+async def read_item(params: Model):
+    result = await get_words(params)
+    return result
 
-async def api_call(request, *args):
-    return web.Response(json.dumps(args))
 
-app.add_routes([
-    web.get("/", root_handler),
-    web.post("/", api_handler),
-    web.get('/{filepath:.*}', handle_file),
-    # web.post('/{filepath:.*}', api_call)
-    ])
-
-# Run the app
-web.run_app(app, host="localhost", port=8080)
+async def get_words(params):
+    count = 20
+    with open(f'resource/{params.how}.pck', mode='rb') as f:
+        quick_dict = pickle.load(f)
+    depth = 2 if params.how.startswith("qd2g_") else 3
+    result = []
+    for _ in range(count):
+        word = get_word(quick_dict, depth, params.len)
+        result.append(word)
+    return result

@@ -1,48 +1,37 @@
-def getWords(self, how, length):
-    # sanitize
-    if how not in ["dgf", "tgf", "dgh", "tgh"]:
-        return {}
-    if int(len) > 49 or int(len) < 2:
-        return {}
-
-    for i in range(count):
-        length = self.gc.findLength(lengthObj)
-        word = self.gc.findWord(Qdict, depth, length)
-        words.append(word)
-    return words
+import bisect
+import random
+from collections import deque
+"""
+Extract original code from class. 
+"""
 
 
-def prepare():
-    if 'how' in form:
-        if how == 'dgf':
-            filename = 'resource/qd2g_f.pck'
-            depth = 2
-            result = findWords(20, self.qd2g_f, 2, len)
-        elif form['how'].value == 'tgf':
-            result = findWords(20, self.qd3g_f, 3, len)
-        elif form['how'].value == 'dgh':
-            result = findWords(20, self.qd2g_h, 2, len)
-        elif form['how'].value == 'tgh':
-            result = findWords(20, self.qd3g_h, 3, len)
-
-    collection = {}
-    with open(filename, 'rb') as f:
-        collection = pickle.load(f)
-    result = findWords(20, collection, depth, length)
-    return json.dumps(result)
-
-
-def findWord(self, quickDict, depth, length):
-    word = self.findStart(quickDict, depth)
+def get_word(quick_dict, depth, length):
+    word = get_start(quick_dict, depth)
     while len(word) < length:
         # TODO: sometimes key not found
         try:
-            prevSlice = quickDict[word[len(word) - depth:]]
-            nextChar = self.findCharacter(prevSlice)
-            word += nextChar
+            prev_slice = quick_dict[word[len(word) - depth:]]
+            next_char = get_character(prev_slice)
+            word += next_char
         except KeyError as e:
             break
     return word
 
-if __name__ == "__main__":
-    print("hello")
+
+def get_start(quick_dict, depth):
+    char_que = deque('#' * depth, maxlen = depth)
+    for i in range(depth):
+        try:
+            ''' TODO: sometimes key not found '''
+            char_que.append(get_character(quick_dict[''.join(l for l in char_que)]))
+        except KeyError as e:
+            break
+    chars = ''.join(l for l in char_que)
+    return chars
+
+
+def get_character(qd_slice):
+    rnd = random.random() * qd_slice[0]
+    character = qd_slice[1][bisect.bisect_left(qd_slice[2], rnd)]
+    return character
