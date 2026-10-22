@@ -1,5 +1,6 @@
 # Tests on every push and PR. A v* tag on a master commit also builds the package
 # and publishes it as a GitHub Release; nothing is packaged before the merge and tag.
+# The tag must match pyproject's version: v1.5.0 <-> version = "1.5.0".
 name: ci
 
 on:
@@ -63,6 +64,11 @@ jobs:
         run: pip install build && python -m build
 
       - name: Publish GitHub Release
-        run: gh release create "$GITHUB_REF_NAME" dist/* --title "$GITHUB_REF_NAME" --generate-notes
+        run: |  # a release made in the web UI already exists: just attach the files
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" dist/* --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" dist/* --title "$GITHUB_REF_NAME" --generate-notes
+          fi
         env:
           GH_TOKEN: ${{ github.token }}

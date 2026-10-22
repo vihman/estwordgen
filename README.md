@@ -7,7 +7,7 @@ Estonian pseudoword generator. It learns which character follows each 1–3 char
 Python 3.13+, no dependencies.
 
 ```shell
-pip install -e .                                 # or: pip install git+https://github.com/vihman/estwordgen@v2.0.0
+pip install -e .                                 # or: pip install git+https://github.com/vihman/estwordgen@v1.5.0
 estwordgen generate                              # 20 words, trigram model, lengths drawn from the corpus
 estwordgen generate -c lemmad_piir -n 2 -l 8     # compound-split corpus, digram model, 8 letters
 estwordgen score kultuur kxzqw                   # probability of the model producing each word
