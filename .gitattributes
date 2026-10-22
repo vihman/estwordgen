@@ -1,0 +1,2 @@
+# Built by `estwordgen build`; a test checks them against data/. Collapsed in GitHub diffs.
+src/estwordgen/models/*.json linguist-generated=true
