@@ -1,6 +1,6 @@
 # estwordgen
 
-Estonian pseudoword generator. It learns which character follows each 1–3 character context in a list of Estonian lemmas, then makes new words by a random walk over those counts (a character n-gram Markov chain). It started as a bachelor thesis in 2013. The live site is <https://wordgen.vihman.com>.
+Estonian pseudoword generator. It learns which character follows each 1–3 character context in a list of Estonian lemmas, then makes new words by a random walk over those counts (a character n-gram Markov chain). It started as a bachelor thesis in 2013.
 
 ## Use
 
